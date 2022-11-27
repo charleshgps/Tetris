@@ -6,7 +6,8 @@ context.scale(20, 20);
 function arenaSweep() {
 
     let rowCount = 1;
-    outer: for (let y = arena.length; y > 0; --y) {
+    outer:
+    for (let y = arena.length - 1; y > 0; --y) {
         for (let x = 0; x < arena[y].length; ++x) {
             if (arena[y][x] === 0) {
                 continue outer;
@@ -25,7 +26,7 @@ function collide(arena, player) {
     const o = player.pos;
     for (let y = 0; y < m.length; ++y) {
         for (let x = 0; x < m[y].length; ++x) {
-            if (m[x][y] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) {
+            if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) {
                 return true;
             }
         }
@@ -119,7 +120,7 @@ function merge(arena, player) {
 
 function rotate(matrix, dir) {
     for (let y = 0; y < matrix.length; ++y) {
-        for (let x = o; x < y; ++x) {
+        for (let x = 0; x < y; ++x) {
             [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
         }
     }
@@ -154,7 +155,7 @@ function playerReset() {
     const pieces = "TJLOSZI";
     player.matrix = createPiece(pieces[(pieces.length * Math.random()) | 0]);
     player.pos.y = 0;
-    player.pos.x = ((arena[0].length / 2) | 0) - ((player.matrix[0] / 2) | 0);
+    player.pos.x = ((arena[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);
     if (collide(arena, player)) {
         arena.forEach((row) => row.fill(0));
         player.score = 0;
@@ -203,11 +204,11 @@ document.addEventListener("keydown", (event) => {
     } else if (event.keyCode === 39) {
         playerMove(1);
     } else if (event.keyCode === 40) {
-        playerMove();
+        playerDrop();
     } else if (event.keyCode === 81) {
-        playerMove(-1);
+        playerRotate(-1);
     } else if (event.keyCode === 87) {
-        playerMove(1);
+        playerRotate(1);
     }
 });
 
