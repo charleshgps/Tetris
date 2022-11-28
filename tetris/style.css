@@ -9,4 +9,5 @@ body {
 canvas {
     border: solid 0.2em #fff;
     height: 90vh;
+    border-radius: 5%;
 }
